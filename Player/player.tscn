@@ -1,28 +1,33 @@
 [gd_scene load_steps=5 format=3 uid="uid://v8gsk82wm5v"]
 
 [ext_resource type="PackedScene" uid="uid://co51r2bk8txik" path="res://Player/player.glb" id="1_4flbx"]
-[ext_resource type="Script" uid="uid://cge0aule2xs6s" path="res://Player/player.gd" id="1_onrkg"]
-[ext_resource type="Script" uid="uid://bphu24nl2uk0s" path="res://Player/CameraSpringArm.gd" id="3_btcbx"]
+[ext_resource type="Script" uid="uid://bo0m7qpebvgi0" path="res://Player/Player_Script.gd" id="1_4ntmi"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4ntmi"]
-size = Vector3(1, 2.99823, 1.24866)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l8h54"]
+radius = 1.01658
+height = 3.05614
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
 
 [node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_onrkg")
+script = ExtResource("1_4ntmi")
 
-[node name="Pivot" type="Node3D" parent="."]
-
-[node name="Character" parent="Pivot" instance=ExtResource("1_4flbx")]
-transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 0, 0)
+[node name="player" parent="." instance=ExtResource("1_4flbx")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.0348995, -0.999391, 0, 0.999391, 0.0348995, 0, 2, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.485077, -0.130554)
-shape = SubResource("BoxShape3D_4ntmi")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0135637, 1.48522, 0.0990882)
+shape = SubResource("CapsuleShape3D_l8h54")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.879788, 0)
-spring_length = 6.0
-script = ExtResource("3_btcbx")
+[node name="CameraPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1526, 0)
 
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+shape = SubResource("SphereShape3D_4ntmi")
+spring_length = 8.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+unique_name_in_owner = true
